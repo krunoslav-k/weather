@@ -1,23 +1,41 @@
 import { useState } from "react";
-import { AsyncPaginate, type Response } from "react-select-async-paginate";
+import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../services/cityAPI";
 
-export default function SearchBar({ onCityChange }) {
-  const [city, setCity] = useState(null);
+export interface CityOption {
+  value: string;
+  label: string;
+}
 
-  function handleOnChange(cityData) {
+interface SearchBarProps {
+  onCityChange: (city: CityOption | null) => void;
+}
+
+interface CitiesAPIResponse {
+  data: {
+    latitude: number;
+    longitude: number;
+    name: string;
+    countryCode: string;
+  }[];
+}
+
+export default function SearchBar({ onCityChange }: SearchBarProps) {
+  const [city, setCity] = useState<CityOption | null>(null);
+
+  function handleOnChange(cityData: CityOption | null) {
     setCity(cityData);
     onCityChange(cityData);
     console.log(cityData);
   }
 
-  function loadOptions(inputValue) {
+  function loadOptions(inputValue: string): Promise<{ options: CityOption[] }> {
     return fetch(
       `${GEO_API_URL}/cities?minPopulation=80000&namePrefix=${inputValue}`,
       geoApiOptions
     )
       .then((response) => response.json())
-      .then((response) => {
+      .then((response: CitiesAPIResponse) => {
         return {
           options: response.data.map((city) => ({
             value: `${city.latitude} ${city.longitude}`,
