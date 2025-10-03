@@ -1,0 +1,65 @@
+@import "../../styles/variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: clamp(320px, 20vw, 600px);
+  margin-top: 1rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: $color-white;
+}
+
+.heading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+}
+
+.dateTimeWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -14px;
+}
+
+.heroWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.heroImage {
+  width: 40%;
+  height: 40%;
+}
+
+.heroTemperature {
+  font-size: 5rem;
+}
+
+.heroDescription {
+  display: flex;
+  justify-content: center;
+}
+
+.parametarWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+}
+
+.parametar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.parametarValue {
+  margin-top: 5px;
+}
