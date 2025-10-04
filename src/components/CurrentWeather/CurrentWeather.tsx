@@ -1,6 +1,7 @@
 import styles from "./CurrentWeather.module.scss";
 import weatherImage from "../../assets/icons/rainy-icon.png";
 import { CloudRain, Droplet, Sun, Wind } from "lucide-react";
+import { getIconSrc } from "../../utils/icons";
 
 interface WeatherData {
   clouds: { all: number };
@@ -59,10 +60,15 @@ export default function CurrentWeather({ weatherData }) {
       </div>
 
       <div className={styles.heroWrapper}>
-        <img className={styles.heroImage} src={weatherImage} alt="" />
+        <img
+          className={styles.heroImage}
+          src={getIconSrc(weatherData.weather[0].icon) ?? weatherImage}
+          alt=""
+        />
         <div className={styles.heroInfoWrapper}>
           <p className={styles.heroTemperature}>
-            {Math.round(weatherData.main.temp)}°C
+            {Math.round(weatherData.main.temp)}
+            <span className={styles.degree}>°C</span>
           </p>
           <p className={styles.heroDescription}>
             {weatherData.weather[0].description}
@@ -74,13 +80,15 @@ export default function CurrentWeather({ weatherData }) {
         <div className={styles.parametar}>
           <CloudRain className={styles.parametarIcon} />
           <p className={styles.parametarValue}>
-            {weatherData.rain ? weatherData.rain : 0}mm
+            {weatherData.rain?.["1h"] ? weatherData.rain?.["1h"] : 0}mm
           </p>
         </div>
+
         <div className={styles.parametar}>
           <Droplet className={styles.parametarIcon} />
           <p className={styles.parametarValue}>{weatherData.main.humidity}%</p>
         </div>
+
         <div className={styles.parametar}>
           <Wind className={styles.parametarIcon} />
           <p className={styles.parametarValue}>
@@ -88,6 +96,7 @@ export default function CurrentWeather({ weatherData }) {
             km/h
           </p>
         </div>
+
         <div className={styles.parametar}>
           <Sun className={styles.parametarIcon} />
           <p className={styles.parametarValue}>{estimateUV(weatherData)}</p>

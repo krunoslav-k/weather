@@ -36,10 +36,17 @@
 .heroImage {
   width: 40%;
   height: 40%;
+  transform: scale(1.7);
 }
 
 .heroTemperature {
   font-size: 5rem;
+}
+
+.degree {
+  position: relative;
+  bottom: 1.4em;
+  font-size: 0.35em;
 }
 
 .heroDescription {
