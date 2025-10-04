@@ -39,7 +39,10 @@ function App() {
     <>
       <Header showWeather={handleShowWeather}></Header>
       <CurrentWeather weatherData={currentWeather}></CurrentWeather>
-      <DailyForecast></DailyForecast>
+      <DailyForecast
+        forecastData={forecast}
+        weatherData={currentWeather}
+      ></DailyForecast>
     </>
   );
 }

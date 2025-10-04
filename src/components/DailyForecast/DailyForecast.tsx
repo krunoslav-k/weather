@@ -1,7 +1,11 @@
 import styles from "./DailyForecast.module.scss";
-import { Tabs } from "radix-ui";
+import { ScrollArea, Tabs } from "radix-ui";
+import weatherImage from "../../assets/icons/rainy-icon.png";
+import { getIconSrc } from "../../utils/icons";
 
-export default function DailyForecast() {
+export default function DailyForecast({ forecastData, weatherData }) {
+  if (!forecastData) return;
+
   return (
     <div className={styles.container}>
       <Tabs.Root defaultValue="temperature">
@@ -13,11 +17,37 @@ export default function DailyForecast() {
         </Tabs.List>
 
         <Tabs.Content value="temperature">
-          <div className={styles.hourlyForecast}>
-            <p className={styles.hourlyForecastTime}></p>
-            <img className={styles.hourlyForecastIcon} src="" alt="" />
-            <p className={styles.hourlyForecastParametarValue}></p>
-          </div>
+          <ScrollArea.Root className={styles.scrollAreaRoot}>
+            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
+              <div className={styles.inner}>
+                {forecastData.list.slice(0, 30).map((data, index) => {
+                  return (
+                    <div className={styles.hourlyForecast} key={index}>
+                      <p className={styles.hourlyForecastTime}>{data.dt_txt}</p>
+                      <img
+                        className={styles.hourlyForecastIcon}
+                        src={
+                          getIconSrc(weatherData.weather[0].icon) ??
+                          weatherImage
+                        }
+                        alt=""
+                      />
+                      <p className={styles.hourlyForecastParametarValue}>
+                        {data.main.temp}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar
+              className={styles.scrollAreaScrollbar}
+              orientation="horizontal"
+            >
+              <ScrollArea.Thumb className={styles.scrollAreaThumb} />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </Tabs.Content>
 
         <Tabs.Content value="percipitation">
@@ -46,4 +76,30 @@ export default function DailyForecast() {
       </Tabs.Root>
     </div>
   );
+
+  {
+    /*
+      <div className="aktivno">
+        <ScrollArea.Root className={styles.Root}>
+          <ScrollArea.Viewport className={styles.Viewport}>
+            <div className={styles.Inner}>
+              {TAGS.map((tag) => (
+                <div className={styles.Tag} key={tag}>
+                  {tag}
+                </div>
+              ))}
+            </div>
+          </ScrollArea.Viewport>
+
+          <ScrollArea.Scrollbar
+            className={styles.Scrollbar}
+            orientation="horizontal"
+          >
+            <ScrollArea.Thumb className={styles.Thumb} />
+          </ScrollArea.Scrollbar>
+        </ScrollArea.Root>
+      </div>
+   
+  );*/
+  }
 }
