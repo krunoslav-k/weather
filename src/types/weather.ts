@@ -40,6 +40,7 @@ export interface SysData {
 }
 
 export interface WeatherData {
+  dt_txt: string;
   weather: WeatherCondition[];
   main: MainData;
   wind: WindData;
@@ -51,4 +52,13 @@ export interface WeatherData {
   visibility?: number;
   timezone?: number;
   id?: number;
+}
+
+export interface FormattedForecast {
+  time: string;
+  icon: string | undefined;
+  temp: number;
+  rain: number;
+  wind: number;
+  humidity: number;
 }

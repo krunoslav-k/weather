@@ -2,9 +2,46 @@ import styles from "./DailyForecast.module.scss";
 import { ScrollArea, Tabs } from "radix-ui";
 import weatherImage from "../../assets/icons/rainy-icon.png";
 import { getIconSrc } from "../../utils/icons";
+import type { FormattedForecast, WeatherData } from "../../types/weather";
+import type { CityOption } from "../../types/cities";
 
-export default function DailyForecast({ forecastData, weatherData }) {
+interface forecastData {
+  city: CityOption;
+  cnt: number;
+  cod: string;
+  list: WeatherData[];
+}
+
+interface DailyForecastProps {
+  forecastData: forecastData;
+  weatherData: WeatherData;
+}
+
+export default function DailyForecast({
+  forecastData,
+  weatherData,
+}: DailyForecastProps) {
   if (!forecastData) return;
+
+  function getFormattedData(): FormattedForecast[] {
+    const formattedData: FormattedForecast[] = [];
+    forecastData.list.slice(0, 30).map((data) => {
+      formattedData.push({
+        time: data.dt_txt.substring(11, 13),
+        icon: getIconSrc(weatherData.weather[0].icon),
+        temp: Math.round(data.main.temp),
+        rain: data.rain?.["1h"] ? data.rain?.["1h"] : 0,
+        wind: Math.round(data.wind.speed),
+        humidity: data.main.humidity,
+      });
+    });
+
+    console.log(forecastData);
+
+    return formattedData;
+  }
+
+  getFormattedData();
 
   return (
     <div className={styles.container}>
@@ -20,24 +57,25 @@ export default function DailyForecast({ forecastData, weatherData }) {
           <ScrollArea.Root className={styles.scrollAreaRoot}>
             <ScrollArea.Viewport className={styles.scrollAreaViewport}>
               <div className={styles.inner}>
-                {forecastData.list.slice(0, 30).map((data, index) => {
-                  return (
-                    <div className={styles.hourlyForecast} key={index}>
-                      <p className={styles.hourlyForecastTime}>{data.dt_txt}</p>
-                      <img
-                        className={styles.hourlyForecastIcon}
-                        src={
-                          getIconSrc(weatherData.weather[0].icon) ??
-                          weatherImage
-                        }
-                        alt=""
-                      />
-                      <p className={styles.hourlyForecastParametarValue}>
-                        {data.main.temp}
-                      </p>
-                    </div>
-                  );
-                })}
+                {getFormattedData()
+                  .slice(0, 30)
+                  .map((data, index) => {
+                    return (
+                      <div className={styles.hourlyForecast} key={index}>
+                        <p className={styles.hourlyForecastTime}>
+                          {data.time}h
+                        </p>
+                        <img
+                          className={styles.hourlyForecastIcon}
+                          src={data.icon ?? weatherImage}
+                          alt=""
+                        />
+                        <p className={styles.hourlyForecastParametarValue}>
+                          {data.temp}°C
+                        </p>
+                      </div>
+                    );
+                  })}
               </div>
             </ScrollArea.Viewport>
 
@@ -51,55 +89,110 @@ export default function DailyForecast({ forecastData, weatherData }) {
         </Tabs.Content>
 
         <Tabs.Content value="percipitation">
-          <div className={styles.hourlyForecast}>
-            <p className={styles.hourlyForecastTime}></p>
-            <img className={styles.hourlyForecastIcon} src="" alt="" />
-            <p className={styles.hourlyForecastParametarValue}></p>
-          </div>
+          <ScrollArea.Root className={styles.scrollAreaRoot}>
+            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
+              <div className={styles.inner}>
+                {getFormattedData()
+                  .slice(0, 30)
+                  .map((data, index) => {
+                    return (
+                      <div className={styles.hourlyForecast} key={index}>
+                        <p className={styles.hourlyForecastTime}>
+                          {data.time}h
+                        </p>
+                        <img
+                          className={styles.hourlyForecastIcon}
+                          src={data.icon ?? weatherImage}
+                          alt=""
+                        />
+                        <p className={styles.hourlyForecastParametarValue}>
+                          {data.rain}mm
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar
+              className={styles.scrollAreaScrollbar}
+              orientation="horizontal"
+            >
+              <ScrollArea.Thumb className={styles.scrollAreaThumb} />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </Tabs.Content>
 
         <Tabs.Content value="wind">
-          <div className={styles.hourlyForecast}>
-            <p className={styles.hourlyForecastTime}></p>
-            <img className={styles.hourlyForecastIcon} src="" alt="" />
-            <p className={styles.hourlyForecastParametarValue}></p>
-          </div>
+          <ScrollArea.Root className={styles.scrollAreaRoot}>
+            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
+              <div className={styles.inner}>
+                {getFormattedData()
+                  .slice(0, 30)
+                  .map((data, index) => {
+                    return (
+                      <div className={styles.hourlyForecast} key={index}>
+                        <p className={styles.hourlyForecastTime}>
+                          {data.time}h
+                        </p>
+                        <img
+                          className={styles.hourlyForecastIcon}
+                          src={data.icon ?? weatherImage}
+                          alt=""
+                        />
+                        <p className={styles.hourlyForecastParametarValue}>
+                          {data.wind}km/h
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar
+              className={styles.scrollAreaScrollbar}
+              orientation="horizontal"
+            >
+              <ScrollArea.Thumb className={styles.scrollAreaThumb} />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </Tabs.Content>
 
         <Tabs.Content value="humidity">
-          <div className={styles.hourlyForecast}>
-            <p className={styles.hourlyForecastTime}></p>
-            <img className={styles.hourlyForecastIcon} src="" alt="" />
-            <p className={styles.hourlyForecastParametarValue}></p>
-          </div>
+          <ScrollArea.Root className={styles.scrollAreaRoot}>
+            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
+              <div className={styles.inner}>
+                {getFormattedData()
+                  .slice(0, 30)
+                  .map((data, index) => {
+                    return (
+                      <div className={styles.hourlyForecast} key={index}>
+                        <p className={styles.hourlyForecastTime}>
+                          {data.time}h
+                        </p>
+                        <img
+                          className={styles.hourlyForecastIcon}
+                          src={data.icon ?? weatherImage}
+                          alt=""
+                        />
+                        <p className={styles.hourlyForecastParametarValue}>
+                          {data.humidity}%
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar
+              className={styles.scrollAreaScrollbar}
+              orientation="horizontal"
+            >
+              <ScrollArea.Thumb className={styles.scrollAreaThumb} />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </Tabs.Content>
       </Tabs.Root>
     </div>
   );
-
-  {
-    /*
-      <div className="aktivno">
-        <ScrollArea.Root className={styles.Root}>
-          <ScrollArea.Viewport className={styles.Viewport}>
-            <div className={styles.Inner}>
-              {TAGS.map((tag) => (
-                <div className={styles.Tag} key={tag}>
-                  {tag}
-                </div>
-              ))}
-            </div>
-          </ScrollArea.Viewport>
-
-          <ScrollArea.Scrollbar
-            className={styles.Scrollbar}
-            orientation="horizontal"
-          >
-            <ScrollArea.Thumb className={styles.Thumb} />
-          </ScrollArea.Scrollbar>
-        </ScrollArea.Root>
-      </div>
-   
-  );*/
-  }
 }

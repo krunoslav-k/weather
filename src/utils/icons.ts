@@ -4,6 +4,6 @@ export const icons = import.meta.glob("../assets/icons/*.svg", {
 }) as Record<string, string>;
 
 export function getIconSrc(code: string): string | undefined {
-  const key = `../assets/icons/${code}.svg`;
+  const key: string = `../assets/icons/${code}.svg`;
   return icons[key];
 }
