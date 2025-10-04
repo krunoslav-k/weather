@@ -2,7 +2,12 @@ import styles from "./CurrentWeather.module.scss";
 import weatherImage from "../../assets/icons/rainy-icon.png";
 import { CloudRain, Droplet, Sun, Wind } from "lucide-react";
 
-export default function CurrentWeather() {
+interface WeatherData {
+  clouds: { all: number };
+  sys: { sunrise: number; sunset: number };
+}
+
+export default function CurrentWeather({ weatherData }) {
   function getCurrentDate(): string {
     const today: Date = new Date();
 
@@ -25,7 +30,26 @@ export default function CurrentWeather() {
     return `${hours}:${minutes}`;
   }
 
-  return (
+  function estimateUV(
+    weatherData: WeatherData,
+    currentTime: Date = new Date()
+  ): number {
+    const { clouds, sys } = weatherData;
+    const sunrise = new Date(sys.sunrise * 1000);
+    const sunset = new Date(sys.sunset * 1000);
+
+    if (currentTime < sunrise || currentTime > sunset) return 0;
+
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const timeSinceSunrise = currentTime.getTime() - sunrise.getTime();
+    let baseUV = (timeSinceSunrise / dayDuration) * 10;
+
+    baseUV *= 1 - clouds.all / 100;
+
+    return Math.round(Math.min(Math.max(baseUV, 0), 11));
+  }
+
+  return weatherData ? (
     <div className={styles.container}>
       <p className={styles.heading}>Current Weather</p>
 
@@ -37,29 +61,40 @@ export default function CurrentWeather() {
       <div className={styles.heroWrapper}>
         <img className={styles.heroImage} src={weatherImage} alt="" />
         <div className={styles.heroInfoWrapper}>
-          <p className={styles.heroTemperature}>12°C</p>
-          <p className={styles.heroDescription}>CLOUDY</p>
+          <p className={styles.heroTemperature}>
+            {Math.round(weatherData.main.temp)}°C
+          </p>
+          <p className={styles.heroDescription}>
+            {weatherData.weather[0].description}
+          </p>
         </div>
       </div>
 
       <div className={styles.parametarWrapper}>
         <div className={styles.parametar}>
           <CloudRain className={styles.parametarIcon} />
-          <p className={styles.parametarValue}>163mm</p>
+          <p className={styles.parametarValue}>
+            {weatherData.rain ? weatherData.rain : 0}mm
+          </p>
         </div>
         <div className={styles.parametar}>
           <Droplet className={styles.parametarIcon} />
-          <p className={styles.parametarValue}>92%</p>
+          <p className={styles.parametarValue}>{weatherData.main.humidity}%</p>
         </div>
         <div className={styles.parametar}>
           <Wind className={styles.parametarIcon} />
-          <p className={styles.parametarValue}>6km/h</p>
+          <p className={styles.parametarValue}>
+            {weatherData.wind.speed ? Math.round(weatherData.wind.speed) : 0}
+            km/h
+          </p>
         </div>
         <div className={styles.parametar}>
           <Sun className={styles.parametarIcon} />
-          <p className={styles.parametarValue}>2</p>
+          <p className={styles.parametarValue}>{estimateUV(weatherData)}</p>
         </div>
       </div>
     </div>
+  ) : (
+    <></>
   );
 }
