@@ -2,13 +2,13 @@ import styles from "./CurrentWeather.module.scss";
 import weatherImage from "../../assets/icons/rainy-icon.png";
 import { CloudRain, Droplet, Sun, Wind } from "lucide-react";
 import { getIconSrc } from "../../utils/icons";
+import type { WeatherData } from "../../types/weather";
 
-interface WeatherData {
-  clouds: { all: number };
-  sys: { sunrise: number; sunset: number };
+interface CurrentWeatherProps {
+  weatherData: WeatherData | null;
 }
 
-export default function CurrentWeather({ weatherData }) {
+export default function CurrentWeather({ weatherData }: CurrentWeatherProps) {
   function getCurrentDate(): string {
     const today: Date = new Date();
 

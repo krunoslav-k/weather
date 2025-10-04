@@ -1,23 +1,10 @@
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../services/cityAPI";
-
-export interface CityOption {
-  value: string;
-  label: string;
-}
+import type { CityOption, CitiesAPIResponse } from "../../types/cities";
 
 interface SearchBarProps {
   onCityChange: (city: CityOption | null) => void;
-}
-
-interface CitiesAPIResponse {
-  data: {
-    latitude: number;
-    longitude: number;
-    name: string;
-    countryCode: string;
-  }[];
 }
 
 export default function SearchBar({ onCityChange }: SearchBarProps) {
