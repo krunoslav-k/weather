@@ -2,7 +2,8 @@ import { useState } from "react";
 import CurrentWeather from "./components/CurrentWeather/CurrentWeather";
 import Header from "./components/Header/Header";
 import { WEATHER_API_KEY, WEATHER_API_URL } from "./services/weatherAPI";
-import type { CityOption } from "./components/SearchBar/SearchBar";
+import type { CityOption } from "./types/cities";
+import DailyForecast from "./components/DailyForecast/DailyForecast";
 
 function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -38,6 +39,7 @@ function App() {
     <>
       <Header showWeather={handleShowWeather}></Header>
       <CurrentWeather weatherData={currentWeather}></CurrentWeather>
+      <DailyForecast></DailyForecast>
     </>
   );
 }

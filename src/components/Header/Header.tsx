@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
-import type { CityOption } from "../SearchBar/SearchBar";
+import type { CityOption } from "../../types/cities";
 
 interface HeaderProps {
   showWeather: (cityData: CityOption | null) => void;
