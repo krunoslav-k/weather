@@ -1,6 +1,8 @@
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import type { CityOption } from "../../types/cities";
+import styles from "./Header.module.scss";
+import { MapPin } from "lucide-react";
 
 interface HeaderProps {
   showWeather: (cityData: CityOption | null) => void;
@@ -15,10 +17,17 @@ export default function Header({ showWeather }: HeaderProps) {
   }
 
   return (
-    <>
-      <h1>Weather</h1>
+    <div className={styles.header}>
+      <h1 className={styles.logo}>Weather</h1>
       <SearchBar onCityChange={handleOnCityChange} />
-      <p>{location}</p>
-    </>
+      {location ? (
+        <p className={styles.city}>
+          <MapPin className={styles.cityIcon} />
+          {location}
+        </p>
+      ) : (
+        <p className={styles.city}></p>
+      )}
+    </div>
   );
 }

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../services/cityAPI";
 import type { CityOption, CitiesAPIResponse } from "../../types/cities";
+import { customStyles } from "./SearchBarStyle";
+import SearchIconPlaceholder from "./SearchIconPlaceholder";
 
 interface SearchBarProps {
   onCityChange: (city: CityOption | null) => void;
@@ -40,10 +42,12 @@ export default function SearchBar({ onCityChange }: SearchBarProps) {
     <div>
       <AsyncPaginate
         placeholder="search for a city"
+        components={{ Placeholder: SearchIconPlaceholder }}
         debounceTimeout={600}
         value={city}
         onChange={handleOnChange}
         loadOptions={loadOptions}
+        styles={customStyles}
       />
     </div>
   );

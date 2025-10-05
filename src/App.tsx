@@ -38,11 +38,17 @@ function App() {
   return (
     <>
       <Header showWeather={handleShowWeather}></Header>
-      <CurrentWeather weatherData={currentWeather}></CurrentWeather>
-      <DailyForecast
-        forecastData={forecast}
-        weatherData={currentWeather}
-      ></DailyForecast>
+      <div className="dailyForecastContainer">
+        {currentWeather && (
+          <CurrentWeather weatherData={currentWeather}></CurrentWeather>
+        )}
+        {currentWeather && forecast && (
+          <DailyForecast
+            forecastData={forecast}
+            weatherData={currentWeather}
+          ></DailyForecast>
+        )}
+      </div>
     </>
   );
 }

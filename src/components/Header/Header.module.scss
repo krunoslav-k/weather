@@ -1,0 +1,41 @@
+.header {
+  margin: 2rem 0 3rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: transparent;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.4)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
+    0 4px 30px rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.2);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+
+  width: 180px;
+}
+
+.city {
+  width: 180px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.cityIcon {
+  position: relative;
+  top: 4px;
+  margin-right: 8px;
+  width: 1.2rem;
+  height: 1.2rem;
+}
