@@ -4,6 +4,7 @@ import weatherImage from "../../assets/icons/rainy-icon.png";
 import { getIconSrc } from "../../utils/icons";
 import type { FormattedForecast, WeatherData } from "../../types/weather";
 import type { CityOption } from "../../types/cities";
+import { CloudRain, Droplet, Thermometer, Wind } from "lucide-react";
 
 interface forecastData {
   city: CityOption;
@@ -45,12 +46,23 @@ export default function DailyForecast({
 
   return (
     <div className={styles.container}>
-      <Tabs.Root defaultValue="temperature">
-        <Tabs.List aria-label="choose a weather parametar">
-          <Tabs.Trigger value="temperature">Temperature</Tabs.Trigger>
-          <Tabs.Trigger value="percipitation">Percipitation</Tabs.Trigger>
-          <Tabs.Trigger value="wind">Wind</Tabs.Trigger>
-          <Tabs.Trigger value="humidity">Humidity</Tabs.Trigger>
+      <Tabs.Root className={styles.tabRoot} defaultValue="temperature">
+        <Tabs.List
+          className={styles.tabList}
+          aria-label="choose a weather parametar"
+        >
+          <Tabs.Trigger className={styles.tab} value="temperature">
+            <Thermometer className={styles.tabIcon} /> Temperature
+          </Tabs.Trigger>
+          <Tabs.Trigger className={styles.tab} value="percipitation">
+            <CloudRain className={styles.tabIcon} /> Percipitation
+          </Tabs.Trigger>
+          <Tabs.Trigger className={styles.tab} value="wind">
+            <Wind className={styles.tabIcon} /> Wind
+          </Tabs.Trigger>
+          <Tabs.Trigger className={styles.tab} value="humidity">
+            <Droplet className={styles.tabIcon} /> Humidity
+          </Tabs.Trigger>
         </Tabs.List>
 
         <Tabs.Content value="temperature">

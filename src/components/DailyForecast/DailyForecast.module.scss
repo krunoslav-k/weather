@@ -4,9 +4,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  width: clamp(320px, 80vw, 900px);
+  //width: clamp(320px, 80vw, 900px);
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -15,10 +15,43 @@
   color: $color-white;
 }
 
+.tabList {
+  margin-left: 0.5rem;
+  display: flex;
+  gap: 1.75rem;
+}
+
+.tab {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+
+  &[data-state="active"]::before {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+  }
+}
+
+.tabIcon {
+  position: relative;
+  top: 3px;
+  margin-right: 1px;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
 .scrollAreaRoot {
-  height: 10rem;
   width: auto;
-  border: 1px solid white;
+  margin-top: 1.1rem;
   border-radius: 10px;
 }
 
@@ -26,5 +59,17 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 15px 20px;
+  margin-top: 1rem;
+  padding-bottom: 10px;
+}
+
+.hourlyForecast {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.hourlyForecastIcon {
 }
