@@ -3,18 +3,11 @@ import { ScrollArea, Tabs } from "radix-ui";
 import weatherImage from "../../assets/icons/rainy-icon.png";
 import { getIconSrc } from "../../utils/icons";
 import type { FormattedForecast, WeatherData } from "../../types/weather";
-import type { CityOption } from "../../types/cities";
+import type { ForecastData } from "../../types/weather";
 import { CloudRain, Droplet, Thermometer, Wind } from "lucide-react";
 
-interface forecastData {
-  city: CityOption;
-  cnt: number;
-  cod: string;
-  list: WeatherData[];
-}
-
 interface DailyForecastProps {
-  forecastData: forecastData;
+  forecastData: ForecastData;
   weatherData: WeatherData;
 }
 

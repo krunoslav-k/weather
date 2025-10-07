@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import { WEATHER_API_KEY, WEATHER_API_URL } from "./services/weatherAPI";
 import type { CityOption } from "./types/cities";
 import DailyForecast from "./components/DailyForecast/DailyForecast";
+import WeeklyForecast from "./components/WeeklyForecast/WeeklyForecast";
 
 function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -38,17 +39,22 @@ function App() {
   return (
     <>
       <Header showWeather={handleShowWeather}></Header>
-      <div className="dailyForecastContainer">
-        {currentWeather && (
+
+      {currentWeather && forecast && (
+        <>
           <CurrentWeather weatherData={currentWeather}></CurrentWeather>
-        )}
-        {currentWeather && forecast && (
+
           <DailyForecast
             forecastData={forecast}
             weatherData={currentWeather}
           ></DailyForecast>
-        )}
-      </div>
+
+          <WeeklyForecast
+            forecastData={forecast}
+            weatherData={currentWeather}
+          ></WeeklyForecast>
+        </>
+      )}
     </>
   );
 }

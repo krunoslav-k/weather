@@ -1,3 +1,5 @@
+import type { CityOption } from "./cities";
+
 export interface WeatherCondition {
   id: number;
   main: string;
@@ -61,4 +63,11 @@ export interface FormattedForecast {
   rain: number;
   wind: number;
   humidity: number;
+}
+
+export interface ForecastData {
+  city: CityOption;
+  cnt: number;
+  cod: string;
+  list: WeatherData[];
 }
