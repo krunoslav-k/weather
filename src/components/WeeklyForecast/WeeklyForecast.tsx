@@ -7,6 +7,7 @@ interface WeeklyForecastProps {
 }
 
 interface DailyForecastData {
+  date?: string;
   temps: number[];
   rains: number[];
   winds: number[];
@@ -34,7 +35,10 @@ export default function WeeklyForecast({
     return `${dd}.${mm}.${yyyy}`;
   }
 
-  function groupByDate(list: WeatherData[], timezoneOffsetSeconds = 0) {
+  function groupByDate(
+    list: WeatherData[],
+    timezoneOffsetSeconds = 0
+  ): ForecastDataByDate {
     const byDate: ForecastDataByDate = {};
 
     list.forEach((item) => {
@@ -55,7 +59,7 @@ export default function WeeklyForecast({
       byDate[dateKey].rains.push(item.rain?.["3h"] ?? 0);
       byDate[dateKey].winds.push(item.wind.speed ?? 0);
       byDate[dateKey].humidities.push(item.main.humidity);
-      byDate[dateKey].descriptions.push(item.weather[0].description);
+      byDate[dateKey].descriptions.push(item.weather[0].main);
       byDate[dateKey].icons.push(item.weather[0].icon);
     });
 
@@ -72,24 +76,71 @@ export default function WeeklyForecast({
     );
   }
 
+  function aggregateDaily(byDate: ForecastDataByDate) {
+    return Object.entries(byDate).map(([date, data]) => {
+      const minTemp = Math.round(Math.min(...data.temps));
+      const maxTemp = Math.round(Math.max(...data.temps));
+
+      const sumHumidity = data.humidities.reduce((sum, value) => {
+        return sum + value;
+      }, 0);
+      const avgHumidity = Math.round(sumHumidity / data.humidities.length);
+
+      const totalRain = data.rains.reduce((sum, value) => {
+        return sum + value;
+      }, 0);
+
+      const sumWind = data.winds.reduce((sum, value) => {
+        return sum + value;
+      }, 0);
+      const avgWind = Math.round(sumWind / data.winds.length);
+
+      const dominantWeather = getMostFrequent(data.descriptions);
+      const icon = getMostFrequent(data.icons);
+
+      return {
+        date,
+        minTemp,
+        maxTemp,
+        avgHumidity,
+        totalRain: Number(totalRain.toFixed(1)),
+        avgWind,
+        description: dominantWeather,
+        icon,
+      };
+    });
+  }
+
+  console.log(aggregateDaily(groupByDate(forecastData.list)));
+
   return (
     <div className={styles.weeklyForecast}>
-      <div className={styles.dayCard}>
-        <div className={styles.dayCardHeader}>
-          <p className={styles.dayCardDate}></p>
-          <p className={styles.dayCardWeekday}></p>
-        </div>
+      {aggregateDaily(groupByDate(forecastData.list)).map((day) => {
+        return (
+          <div className={styles.dayCard}>
+            <div className={styles.dayCardHeader}>
+              <p className={styles.dayCardDate}>{day.date}</p>
+              <p className={styles.dayCardWeekday}></p>
+            </div>
 
-        <img className={styles.dayCardIcon} src="" alt="" />
+            <img className={styles.dayCardIcon} src="" alt="" />
 
-        <div className={styles.dayCardDetails}>
-          <p className={styles.dayCardTemp}></p>
-          <p className={styles.dayCardDescription}></p>
-          <p className={styles.dayCardParametar}>Precipitation:</p>
-          <p className={styles.dayCardParametar}>Wind:</p>
-          <p className={styles.dayCardParametar}>Humidity:</p>
-        </div>
-      </div>
+            <div className={styles.dayCardDetails}>
+              <p className={styles.dayCardTemp}>
+                {day.maxTemp} {day.minTemp}
+              </p>
+              <p className={styles.dayCardDescription}>{day.description}</p>
+              <p className={styles.dayCardParametar}>
+                Precipitation: {day.totalRain}
+              </p>
+              <p className={styles.dayCardParametar}>Wind: {day.avgWind}</p>
+              <p className={styles.dayCardParametar}>
+                Humidity: {day.avgHumidity}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
