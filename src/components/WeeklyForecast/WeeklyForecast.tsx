@@ -1,5 +1,7 @@
 import type { WeatherData, ForecastData } from "../../types/weather";
 import styles from "./WeeklyForecast.module.scss";
+import weatherImage from "../../assets/icons/rainy-icon.png";
+import { getIconSrc } from "../../utils/icons";
 
 interface WeeklyForecastProps {
   weatherData: WeatherData;
@@ -8,6 +10,7 @@ interface WeeklyForecastProps {
 
 interface DailyForecastData {
   date?: string;
+  weekDay?: string;
   temps: number[];
   rains: number[];
   winds: number[];
@@ -77,7 +80,11 @@ export default function WeeklyForecast({
   }
 
   function aggregateDaily(byDate: ForecastDataByDate) {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
     return Object.entries(byDate).map(([date, data]) => {
+      const weekDay = days[new Date(date).getUTCDay()];
+
       const minTemp = Math.round(Math.min(...data.temps));
       const maxTemp = Math.round(Math.max(...data.temps));
 
@@ -99,6 +106,7 @@ export default function WeeklyForecast({
       const icon = getMostFrequent(data.icons);
 
       return {
+        weekDay,
         date,
         minTemp,
         maxTemp,
@@ -111,8 +119,6 @@ export default function WeeklyForecast({
     });
   }
 
-  console.log(aggregateDaily(groupByDate(forecastData.list)));
-
   return (
     <div className={styles.weeklyForecast}>
       {aggregateDaily(groupByDate(forecastData.list)).map((day) => {
@@ -120,10 +126,14 @@ export default function WeeklyForecast({
           <div className={styles.dayCard}>
             <div className={styles.dayCardHeader}>
               <p className={styles.dayCardDate}>{day.date}</p>
-              <p className={styles.dayCardWeekday}></p>
+              <p className={styles.dayCardWeekday}>{day.weekDay}</p>
             </div>
 
-            <img className={styles.dayCardIcon} src="" alt="" />
+            <img
+              className={styles.dayCardIcon}
+              src={getIconSrc(day.icon) ?? weatherImage}
+              alt="weather icon"
+            />
 
             <div className={styles.dayCardDetails}>
               <p className={styles.dayCardTemp}>
@@ -138,6 +148,8 @@ export default function WeeklyForecast({
                 Humidity: {day.avgHumidity}
               </p>
             </div>
+            <hr />
+            <hr />
           </div>
         );
       })}
