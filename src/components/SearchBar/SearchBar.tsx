@@ -15,7 +15,6 @@ export default function SearchBar({ onCityChange }: SearchBarProps) {
   function handleOnChange(cityData: CityOption | null) {
     setCity(cityData);
     onCityChange(cityData);
-    console.log(cityData);
   }
 
   function loadOptions(inputValue: string): Promise<{ options: CityOption[] }> {

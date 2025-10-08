@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import type { CityOption } from "../../types/cities";
 
 export default function SearchIconPlaceholder(
-  props: PlaceholderProps<CityOption, false> // <-- isti tip kao u SearchBar
+  props: PlaceholderProps<CityOption, false> //
 ) {
   return (
     <components.Placeholder {...props}>

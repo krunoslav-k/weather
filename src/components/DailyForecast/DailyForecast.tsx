@@ -30,8 +30,6 @@ export default function DailyForecast({
       });
     });
 
-    console.log(forecastData);
-
     return formattedData;
   }
 

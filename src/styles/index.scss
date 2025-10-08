@@ -3,7 +3,8 @@
 @import "./variables";
 
 body {
-  background: linear-gradient(135deg, #cce7ff, #99d1ff, #66bbff);
+  //background: linear-gradient(135deg, #cce7ff, #99d1ff, #66bbff);
+  background-image: url("../../src/assets/backgrounds/clear-sky.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 1rem 8rem;
@@ -19,4 +20,12 @@ body {
   body {
     padding: 0.5rem 0.75rem;
   }
+}
+
+.top-container {
+  height: 328px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }

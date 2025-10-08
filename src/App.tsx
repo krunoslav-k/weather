@@ -5,6 +5,7 @@ import { WEATHER_API_KEY, WEATHER_API_URL } from "./services/weatherAPI";
 import type { CityOption } from "./types/cities";
 import DailyForecast from "./components/DailyForecast/DailyForecast";
 import WeeklyForecast from "./components/WeeklyForecast/WeeklyForecast";
+import CityMap from "./components/CityMap/CityMap";
 
 function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -31,10 +32,8 @@ function App() {
         setForecast({ city: cityData.label, ...forecastResponse });
       })
       .catch((err) => console.log(err));
-
-    console.log(currentWeather);
-    console.log(forecast);
   }
+  console.log(currentWeather);
 
   return (
     <>
@@ -42,7 +41,15 @@ function App() {
 
       {currentWeather && forecast && (
         <>
-          <CurrentWeather weatherData={currentWeather}></CurrentWeather>
+          <div className="top-container">
+            <CurrentWeather weatherData={currentWeather}></CurrentWeather>
+
+            <CityMap
+              lat={currentWeather.coord.lat}
+              lon={currentWeather.coord.lon}
+              city={currentWeather.city}
+            ></CityMap>
+          </div>
 
           <DailyForecast
             forecastData={forecast}
