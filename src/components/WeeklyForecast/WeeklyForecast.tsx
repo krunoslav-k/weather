@@ -23,10 +23,7 @@ interface ForecastDataByDate {
   [date: string]: DailyForecastData;
 }
 
-export default function WeeklyForecast({
-  weatherData,
-  forecastData,
-}: WeeklyForecastProps) {
+export default function WeeklyForecast({ forecastData }: WeeklyForecastProps) {
   function dateKeyFromItem(item: WeatherData, timezoneOffsetSeconds = 0) {
     const dateInMiliseconds = (item.dt ?? 0 + timezoneOffsetSeconds) * 1000;
     const date = new Date(dateInMiliseconds);
@@ -38,10 +35,7 @@ export default function WeeklyForecast({
     return `${dd}.${mm}.${yyyy}`;
   }
 
-  function groupByDate(
-    list: WeatherData[],
-    timezoneOffsetSeconds = 0
-  ): ForecastDataByDate {
+  function groupByDate(list: WeatherData[]): ForecastDataByDate {
     const byDate: ForecastDataByDate = {};
 
     list.forEach((item) => {
@@ -125,7 +119,7 @@ export default function WeeklyForecast({
         return (
           <div className={styles.dayCard} key={day.date}>
             <div className={styles.dayCardHeader}>
-              <p className={styles.dayCardDate}>{day.date}</p>
+              <p className={styles.dayCardDate}>{day.date.slice(0, 6)}</p>
               <p className={styles.dayCardWeekday}>{day.weekDay}</p>
             </div>
 
@@ -137,19 +131,18 @@ export default function WeeklyForecast({
 
             <div className={styles.dayCardDetails}>
               <p className={styles.dayCardTemp}>
-                {day.maxTemp} {day.minTemp}
+                {day.maxTemp}°C{" "}
+                <span className={styles.minTemp}>{day.minTemp}°C</span>
               </p>
               <p className={styles.dayCardDescription}>{day.description}</p>
               <p className={styles.dayCardParametar}>
-                Precipitation: {day.totalRain}
+                Precipitation: {day.totalRain}mm
               </p>
-              <p className={styles.dayCardParametar}>Wind: {day.avgWind}</p>
+              <p className={styles.dayCardParametar}>Wind: {day.avgWind}m/s</p>
               <p className={styles.dayCardParametar}>
-                Humidity: {day.avgHumidity}
+                Humidity: {day.avgHumidity}%
               </p>
             </div>
-            <hr />
-            <hr />
           </div>
         );
       })}

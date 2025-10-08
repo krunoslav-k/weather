@@ -1,0 +1,54 @@
+@import "../../styles/variables";
+
+.weeklyForecast {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.dayCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.8rem 1.35rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: $color-white;
+}
+
+.dayCardHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dayCardIcon {
+  width: 4rem;
+  height: 4rem;
+  scale: (1.75);
+  align-self: center;
+}
+
+.dayCardTemp {
+  margin-bottom: 5px;
+  font-size: 1.25rem;
+  font-weight: 300;
+
+  .minTemp {
+    margin-left: 5px;
+    opacity: 0.6;
+  }
+}
+
+.dayCardDescription {
+  margin-bottom: 4px;
+}
+
+.dayCardParametar {
+  font-size: 0.8rem;
+}
