@@ -41,6 +41,7 @@ function App() {
 
       {currentWeather && forecast && (
         <>
+          <h2 className="section-heading">Current Weather</h2>
           <div className="top-container">
             <CurrentWeather weatherData={currentWeather}></CurrentWeather>
 
@@ -51,10 +52,13 @@ function App() {
             ></CityMap>
           </div>
 
+          <h2 className="section-heading">Hourly Forecast</h2>
           <DailyForecast
             forecastData={forecast}
             weatherData={currentWeather}
           ></DailyForecast>
+
+          <h2 className="section-heading">5-Day Forecast</h2>
 
           <WeeklyForecast
             forecastData={forecast}

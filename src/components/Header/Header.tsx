@@ -18,7 +18,7 @@ export default function Header({ showWeather }: HeaderProps) {
 
   return (
     <div className={styles.header}>
-      <h1 className={styles.logo}>Weather</h1>
+      <h1 className={styles.logo}>WEATHER</h1>
       <SearchBar onCityChange={handleOnCityChange} />
       {location ? (
         <p className={styles.city}>

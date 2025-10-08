@@ -23,9 +23,19 @@ body {
 }
 
 .top-container {
-  height: 328px;
+  height: 301px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+}
+
+.section-heading {
+  width: max-content;
+  margin: 2.5rem 0 1rem 12px;
+  background: #c8ebff; /* fallback */
+  background: -webkit-linear-gradient(to left, #a9d8ff, #c8ebff);
+  background: linear-gradient(to left, #a9d8ff, #c8ebff);
+  background-clip: text;
+  color: transparent;
 }

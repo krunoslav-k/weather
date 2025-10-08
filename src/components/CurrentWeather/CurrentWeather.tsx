@@ -12,7 +12,7 @@ export default function CurrentWeather({ weatherData }: CurrentWeatherProps) {
   function getCurrentDate(): string {
     const today: Date = new Date();
 
-    const days: string[] = ["ned", "pon", "uto", "sri", "čet", "pet", "sub"];
+    const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     const dayName: string = days[today.getDay()];
     const day: string = today.getDate().toString().padStart(2, "0"); // npr. 03
@@ -52,8 +52,6 @@ export default function CurrentWeather({ weatherData }: CurrentWeatherProps) {
 
   return weatherData ? (
     <div className={styles.container}>
-      <p className={styles.heading}>Current Weather</p>
-
       <div className={styles.dateTimeWrapper}>
         <p className={styles.dateTime}>{getCurrentDate()}</p>
         <p className={styles.dateTime}>{getCurrentTime()}</p>
