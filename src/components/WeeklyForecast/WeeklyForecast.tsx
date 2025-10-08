@@ -123,7 +123,7 @@ export default function WeeklyForecast({
     <div className={styles.weeklyForecast}>
       {aggregateDaily(groupByDate(forecastData.list)).map((day) => {
         return (
-          <div className={styles.dayCard}>
+          <div className={styles.dayCard} key={day.date}>
             <div className={styles.dayCardHeader}>
               <p className={styles.dayCardDate}>{day.date}</p>
               <p className={styles.dayCardWeekday}>{day.weekDay}</p>
